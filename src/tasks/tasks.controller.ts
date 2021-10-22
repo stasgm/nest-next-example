@@ -6,9 +6,11 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/гзвфеу-task.dto';
+import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
+import { UpdateTaskDto } from './dto/update-task.dto';
 import { Task } from './tasks.model';
 import { TasksService } from './tasks.service';
 
@@ -17,7 +19,10 @@ export class TasksController {
   constructor(private tasksService: TasksService) {}
 
   @Get()
-  findAll(): Task[] {
+  findAll(@Query() getTasksFilterTaskDto: GetTasksFilterTaskDto): Task[] {
+    if (Object.keys(getTasksFilterTaskDto).length > 0) {
+      return this.tasksService.findAllByFilter(getTasksFilterTaskDto);
+    }
     return this.tasksService.findAll();
   }
 
