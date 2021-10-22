@@ -1,10 +1,8 @@
-# Title
-
-Task managmnent
+# Task managmnent application
 
 ## Description
 
-Simple project for task managment
+Simple project for task managment application
 
 ## Installation
 
