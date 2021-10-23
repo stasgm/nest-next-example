@@ -1,8 +1,8 @@
-# Task managmnent application
+# Task managrment application
 
 ## Description
 
-Simple project for task managment application
+Simple project for task management application
 
 ## Installation
 
