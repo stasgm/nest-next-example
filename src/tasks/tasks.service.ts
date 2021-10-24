@@ -55,7 +55,10 @@ export class TasksService {
 
   updateOne(id: string, updateTaskDto: UpdateTaskDto): Task {
     const idx = this.tasks.findIndex((i) => i.id === id);
-    if (!(idx >= 0)) return;
+
+    if (idx < 0) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
 
     const task = { id, ...updateTaskDto };
     this.tasks[idx] = task;
@@ -65,7 +68,11 @@ export class TasksService {
 
   deleteOne(id: string): void {
     const idx = this.tasks.findIndex((i) => i.id === id);
-    if (!(idx >= 0)) return;
+
+    if (idx < 0) {
+      throw new NotFoundException(`Task with ID "${id}" not found`);
+    }
+
     this.tasks.splice(idx, 1);
   }
 }
