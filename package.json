@@ -5,7 +5,8 @@
   "author": "",
   "private": true,
   "engines": {
-    "yarn": "1.x"
+    "yarn": "1.22.15",
+    "node": "16.3.0"
   },
   "license": "UNLICENSED",
   "scripts": {
@@ -29,6 +30,7 @@
     "@nestjs/platform-express": "^8.0.0",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
+    "nestjs": "^0.0.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
