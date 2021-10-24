@@ -4,6 +4,9 @@
   "description": "",
   "author": "",
   "private": true,
+  "engines": {
+    "yarn": "1.x"
+  },
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",

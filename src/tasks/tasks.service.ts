@@ -60,7 +60,7 @@ export class TasksService {
       throw new NotFoundException(`Task with ID "${id}" not found`);
     }
 
-    const task = { id, ...updateTaskDto };
+    const task = { id, ...this.tasks[idx], ...updateTaskDto };
     this.tasks[idx] = task;
 
     return task;

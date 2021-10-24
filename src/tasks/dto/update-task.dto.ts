@@ -1,7 +1,10 @@
+import { IsEnum } from 'class-validator';
 import { TaskStatus } from '../tasks.model';
 
 export class UpdateTaskDto {
-  title: string;
-  description: string;
-  status: TaskStatus;
+  title?: string;
+  description?: string;
+
+  @IsEnum(TaskStatus)
+  status?: TaskStatus;
 }
