@@ -3,7 +3,7 @@ import { AppController } from '../app.controller';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './tasks.model';
+import { Task } from './task.model';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
