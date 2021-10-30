@@ -1,4 +1,4 @@
-import { AppRepository } from './app.repository';
+import {AppRepository} from './app.repository';
 
 export class AppService<T> {
   constructor(private readonly appRepository: AppRepository<T>) {

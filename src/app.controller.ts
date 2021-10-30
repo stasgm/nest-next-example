@@ -1,5 +1,5 @@
-import { Body, Delete, Get, Param, Post } from '@nestjs/common';
-import { AppService } from './app.service';
+import {Body, Delete, Get, Param, Post} from '@nestjs/common';
+import {AppService} from './app.service';
 
 export class AppController<T> {
   constructor(private readonly appService: AppService<T>) {

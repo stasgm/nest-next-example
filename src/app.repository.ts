@@ -24,7 +24,7 @@ export class AppRepository<T> {
    */
   async findById(_id: string): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.find({ _id })
+      this.find({_id})
         .then((res) => resolve(res[0]))
         .catch((error) => reject(error));
     });
@@ -67,7 +67,7 @@ export class AppRepository<T> {
    */
   async update(_id: string, data: T): Promise<number> {
     return new Promise((resolve, reject) => {
-      this.nedb.update({ _id }, data, {}, (error, doc) => {
+      this.nedb.update({_id}, data, {}, (error, doc) => {
         if (error) {
           reject(error);
         }
@@ -82,7 +82,7 @@ export class AppRepository<T> {
    */
   async deleteById(_id: string): Promise<number> {
     return new Promise((resolve, reject) => {
-      this.nedb.remove({ _id }, (error, removedNum) => {
+      this.nedb.remove({_id}, (error, removedNum) => {
         if (error) {
           reject(error);
         }

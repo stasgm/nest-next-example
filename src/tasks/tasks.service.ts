@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 
 // import { v4 as uuid } from 'uuid';
-import { Task, TaskStatus } from './task.model';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
-import { AppService } from '../app.service';
-import { TaskRepository } from './task.repository';
+import {Task, TaskStatus} from './task.model';
+import {CreateTaskDto} from './dto/create-task.dto';
+import {UpdateTaskDto} from './dto/update-task.dto';
+import {GetTasksFilterTaskDto} from './dto/get-tasks-filter.dto';
+import {AppService} from '../app.service';
+import {TaskRepository} from './task.repository';
 
 @Injectable()
 export class TasksService extends AppService<Task> {
@@ -16,7 +16,7 @@ export class TasksService extends AppService<Task> {
   }
 
   async findAllByFilter(getTasksFilterTaskDto: GetTasksFilterTaskDto): Promise<Task[]> {
-    const { search, status } = getTasksFilterTaskDto;
+    const {search, status} = getTasksFilterTaskDto;
 
     let tasks = await this.list();
 
@@ -42,7 +42,7 @@ export class TasksService extends AppService<Task> {
   }
 
   addOne(createTaskDto: CreateTaskDto): Promise<Task> {
-    const { title, description } = createTaskDto;
+    const {title, description} = createTaskDto;
 
     const task: Task = {
       // id: uuid(),
@@ -64,7 +64,7 @@ export class TasksService extends AppService<Task> {
       throw new NotFoundException(`Task with ID "${_id}" not found`);
     }
 
-    const newTask = { ...task, ...updateTaskDto };
+    const newTask = {...task, ...updateTaskDto};
 
     const res = await this.update(_id, newTask);
 

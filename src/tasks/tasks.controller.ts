@@ -1,10 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { AppController } from '../app.controller';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './task.model';
-import { TasksService } from './tasks.service';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
+import {AppController} from '../app.controller';
+import {CreateTaskDto} from './dto/create-task.dto';
+import {GetTasksFilterTaskDto} from './dto/get-tasks-filter.dto';
+import {UpdateTaskDto} from './dto/update-task.dto';
+import {Task} from './task.model';
+import {TasksService} from './tasks.service';
 
 @Controller('tasks')
 export class TasksController extends AppController<Task> {
