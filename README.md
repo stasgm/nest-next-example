@@ -2,7 +2,7 @@
 
 ## Description
 
-Simple project for task management application
+Simple project for task management application using jon db - nedb
 
 ## Installation
 
