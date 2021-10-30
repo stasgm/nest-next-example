@@ -2,7 +2,7 @@
 
 ## Description
 
-Simple project for task management application using jon db - nedb
+Simple project for task management application using postgres - typeorm
 
 ## Installation
 
