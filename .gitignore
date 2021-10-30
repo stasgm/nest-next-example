@@ -12,3 +12,7 @@
 
 # DB
 /db
+
+# env
+.env.stage.dev
+.env.stage.prod
