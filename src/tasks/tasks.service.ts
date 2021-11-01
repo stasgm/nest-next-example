@@ -11,15 +11,15 @@ import { Task } from './task.entity';
 export class TasksService {
   constructor(
     @InjectRepository(TasksRepository)
-    private readonly repository: TasksRepository,
+    private readonly taskRepository: TasksRepository,
   ) {}
 
-  find(getTasksFilterTaskDto: GetTasksFilterTaskDto): Promise<Task[]> {
-    return this.repository.findMany(getTasksFilterTaskDto);
+  getAll(getTasksFilterTaskDto: GetTasksFilterTaskDto): Promise<Task[]> {
+    return this.taskRepository.findMany(getTasksFilterTaskDto);
   }
 
-  async findOne(id: string): Promise<Task> {
-    const task = await this.repository.findOne(id);
+  async getById(id: string): Promise<Task> {
+    const task = await this.taskRepository.findOne(id);
 
     if (!task) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
@@ -28,20 +28,20 @@ export class TasksService {
     return task;
   }
 
-  addOne(createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.repository.addOne(createTaskDto);
+  create(createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.taskRepository.addOne(createTaskDto);
   }
 
-  async updateOne(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
-    const task = await this.findOne(id);
+  async updateById(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
+    const task = await this.getById(id);
 
     const newTask = { ...task, ...updateTaskDto };
 
-    return await this.repository.save(newTask);
+    return await this.taskRepository.save(newTask);
   }
 
-  async deleteOne(id: string): Promise<void> {
-    const res = await this.repository.delete(id);
+  async deleteById(id: string): Promise<void> {
+    const res = await this.taskRepository.delete(id);
 
     if (res.affected === 0) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
