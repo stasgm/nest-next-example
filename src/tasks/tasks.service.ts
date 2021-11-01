@@ -11,7 +11,7 @@ import { Task } from './task.entity';
 export class TasksService {
   constructor(
     @InjectRepository(TasksRepository)
-    private repository: TasksRepository,
+    private readonly repository: TasksRepository,
   ) {}
 
   find(getTasksFilterTaskDto: GetTasksFilterTaskDto): Promise<Task[]> {
