@@ -15,16 +15,14 @@
     "start": "nest start",
     "start:dev": "cross-env STAGE=dev nest start --watch",
     "start:debug": "cross-env STAGE=dev nest start --debug --watch",
-    "start:prod": "STAGE=prod node dist/main",
+    "start:prod": "cross-env STAGE=prod node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "test": "cross-env STAGE=dev jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "prestart:prod": "yarn build",
-    "postinstall": "yarn prestart:prod"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",
