@@ -6,6 +6,7 @@ import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
 import { TasksRepository } from './tasks.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from './task.entity';
+import { User } from '../auth/user.entity';
 
 @Injectable()
 export class TasksService {
@@ -14,12 +15,12 @@ export class TasksService {
     private readonly taskRepository: TasksRepository,
   ) {}
 
-  getAll(getTasksFilterTaskDto: GetTasksFilterTaskDto): Promise<Task[]> {
-    return this.taskRepository.findMany(getTasksFilterTaskDto);
+  getAll(getTasksFilterTaskDto: GetTasksFilterTaskDto, user: User): Promise<Task[]> {
+    return this.taskRepository.findMany(getTasksFilterTaskDto, user);
   }
 
-  async getById(id: string): Promise<Task> {
-    const task = await this.taskRepository.findOne(id);
+  async getById(id: string, user: User): Promise<Task> {
+    const task = await this.taskRepository.findOne({ where: { id, user } });
 
     if (!task) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
@@ -28,20 +29,20 @@ export class TasksService {
     return task;
   }
 
-  create(createTaskDto: CreateTaskDto): Promise<Task> {
-    return this.taskRepository.addOne(createTaskDto);
+  create(createTaskDto: CreateTaskDto, user: User): Promise<Task> {
+    return this.taskRepository.addOne(createTaskDto, user);
   }
 
-  async updateById(id: string, updateTaskDto: UpdateTaskDto): Promise<Task> {
-    const task = await this.getById(id);
+  async updateById(id: string, updateTaskDto: UpdateTaskDto, user: User): Promise<Task> {
+    const task = await this.getById(id, user);
 
     const newTask = { ...task, ...updateTaskDto };
 
     return await this.taskRepository.save(newTask);
   }
 
-  async deleteById(id: string): Promise<void> {
-    const res = await this.taskRepository.delete(id);
+  async deleteById(id: string, user: User): Promise<void> {
+    const res = await this.taskRepository.delete({ id, user });
 
     if (res.affected === 0) {
       throw new NotFoundException(`Task with ID "${id}" not found`);
