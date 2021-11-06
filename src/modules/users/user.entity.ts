@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 
-import { Task } from '../tasks/task.entity';
+import { Task } from '../tasks/entities/task.entity';
 
 @Entity()
 export class User {
@@ -17,7 +17,6 @@ export class User {
   @Column()
   password: string;
 
-  @ApiProperty()
   @OneToMany(() => Task, (task) => task.user, { eager: true })
   tasks: Task[];
 }

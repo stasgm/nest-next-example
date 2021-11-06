@@ -7,7 +7,7 @@ import { User } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './task.entity';
+import { Task } from './entities/task.entity';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')

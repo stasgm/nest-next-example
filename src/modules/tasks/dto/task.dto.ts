@@ -1,5 +1,5 @@
-import { Task } from '../task.entity';
-import { TaskStatus } from '../task-status.enum';
+import { Task } from '../entities/task.entity';
+import { TaskStatus } from '../interfaces/task-status.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/user.entity';
 

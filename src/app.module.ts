@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TasksModule } from './tasks/tasks.module';
+import { TasksModule } from './modules/tasks/tasks.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { configValidationSchema } from './config/config.schema';
-import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { configValidationSchema } from './core/config/config.schema';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [

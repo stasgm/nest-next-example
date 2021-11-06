@@ -2,8 +2,8 @@ import { Repository, EntityRepository } from 'typeorm';
 import { User } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
-import { TaskStatus } from './task-status.enum';
-import { Task } from './task.entity';
+import { TaskStatus } from './interfaces/task-status.enum';
+import { Task } from './entities/task.entity';
 
 @EntityRepository(Task)
 export class TasksRepository extends Repository<Task> {
@@ -25,6 +25,7 @@ export class TasksRepository extends Repository<Task> {
 
     const query = this.createQueryBuilder('task');
 
+    console.log(user);
     query.where({ user });
 
     if (status) {
