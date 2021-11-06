@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { UserDto } from '../../users/dto/user.dto';
 
 export class AuthResponseDto {
   @ApiProperty()
-  token: string;
+  access_token: string;
+  user: UserDto;
 }

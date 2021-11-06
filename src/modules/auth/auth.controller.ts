@@ -13,16 +13,13 @@ export class AuthController {
 
   @Post('/signup')
   @ApiOkResponse({ type: User })
-  signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<User> {
+  signUp(@Body() authCredentialsDto: AuthCredentialsDto): Promise<AuthResponseDto> {
     return this.authService.signUp(authCredentialsDto);
   }
 
   @Post('/signin')
   @ApiOkResponse({ type: AuthResponseDto })
   async signIn(@Body() authCredentialsDto: AuthCredentialsDto): Promise<AuthResponseDto> {
-    const token = await this.authService.signIn(authCredentialsDto);
-    return {
-      token,
-    };
+    return this.authService.signIn(authCredentialsDto);
   }
 }

@@ -7,6 +7,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
 import { User } from './user.entity';
+import { UserDto } from './dto/user.dto';
 
 @Controller('users')
 @ApiTags('Users')
@@ -16,35 +17,49 @@ export class UsersController {
 
   constructor(private readonly usersService: UsersService) {}
   @Get()
-  @ApiOkResponse({ type: [User] })
-  getAll(@GetUser() user: User): Promise<User[]> {
+  @ApiOkResponse({ type: [UserDto] })
+  async getAll(@GetUser() user: User): Promise<UserDto[]> {
     this.logger.verbose(`User "${user.username}" retrieving all Users}`);
-    return this.usersService.getAll();
+    const users = await this.usersService.getAll();
+    return users.map((i) => new UserDto(i));
+  }
+
+  @Get('me')
+  @ApiOkResponse()
+  @ApiBearerAuth()
+  async getMe(@GetUser() user: User): Promise<UserDto> {
+    this.logger.verbose(`User "${user.username}" gets himself`);
+    // Check if a user exists
+    return new UserDto(user);
   }
 
   @Get(':id')
-  @ApiOkResponse({ type: User })
+  @ApiOkResponse({ type: UserDto })
   @ApiParam({ name: 'id', required: true })
-  getById(@Param('id') id: string, @GetUser() user: User): Promise<User> {
+  async getById(@Param('id') id: string, @GetUser() user: User): Promise<UserDto> {
     this.logger.verbose(`User "${user.username}" retrieving a user by id ${id}`);
-    return this.usersService.getById(id);
+    return new UserDto(await this.usersService.getById(id));
   }
 
   @Post()
-  @ApiCreatedResponse({ type: User })
+  @ApiCreatedResponse({ type: UserDto })
   @ApiBearerAuth()
-  create(@Body() createUserDto: CreateUserDto, @GetUser() user: User): Promise<User> {
+  async create(@Body() createUserDto: CreateUserDto, @GetUser() user: User): Promise<UserDto> {
     this.logger.verbose(`User "${user.username}" creates a new user. ${JSON.stringify(createUserDto)}`);
-    return this.usersService.create(createUserDto);
+    return new UserDto(await this.usersService.create(createUserDto));
   }
 
   @Put(':id')
-  @ApiOkResponse({ type: User })
+  @ApiOkResponse({ type: UserDto })
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
-  updateById(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto, @GetUser() user: User): Promise<User> {
+  async updateById(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+    @GetUser() user: User,
+  ): Promise<UserDto> {
     this.logger.verbose(`User "${user.username}" updates a user by id: ${id}. ${JSON.stringify(updateUserDto)}`);
-    return this.usersService.updateById(id, updateUserDto);
+    return new UserDto(await this.usersService.updateById(id, updateUserDto));
   }
 
   @Delete(':id')

@@ -1,33 +1,47 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { UsersRepository } from '../users/users.repository';
-import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
+
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './auth/jwt-payload.interface';
+import { UsersService } from '../users/users.service';
+import { AuthResponseDto } from './dto/auth-request.dto';
+import { UserDto } from '../users/dto/user.dto';
 import { User } from '../users/user.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(UsersRepository)
-    private readonly userRpository: UsersRepository,
-    private readonly jwtService: JwtService,
-  ) {}
+  constructor(private readonly userService: UsersService, private readonly jwtService: JwtService) {}
 
-  signUp(authCredentialsDto: AuthCredentialsDto): Promise<User> {
-    return this.userRpository.createUser(authCredentialsDto);
+  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<AuthResponseDto> {
+    const user = await this.userService.create(authCredentialsDto);
+    // return the user and the token
+    return this.generateResponse(user);
   }
 
-  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<string> {
+  async signIn(authCredentialsDto: AuthCredentialsDto): Promise<AuthResponseDto> {
     const { username, password } = authCredentialsDto;
-    const user = await this.userRpository.findOne({ username });
+    const user = await this.userService.getByName(username);
 
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: JwtPayload = { username };
-      return this.jwtService.sign(payload);
+    if (!(user && (await bcrypt.compare(password, user.password)))) {
+      throw new UnauthorizedException('Please check your login credentials');
     }
 
-    throw new UnauthorizedException('Please check your login credentials');
+    return this.generateResponse(user);
+  }
+
+  private generateToken(payload: JwtPayload) {
+    return this.jwtService.sign(payload);
+  }
+
+  private generateResponse(user: User): AuthResponseDto {
+    const { username } = user;
+    const payload: JwtPayload = { username };
+    // generate token
+    const token = this.generateToken(payload);
+    // generate user dto
+    const userDto = new UserDto(user);
+    // return the user and the token
+    return { user: userDto, access_token: token };
   }
 }

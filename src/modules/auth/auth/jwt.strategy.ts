@@ -13,27 +13,6 @@ import { JwtPayload } from './jwt-payload.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  // constructor(
-  //   @InjectRepository(UsersRepository)
-  //   private readonly userRepository: UsersRepository,
-  // ) {
-  //   super({
-  //     secretOrKey: 'secret123456789',
-  //     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-  //   });
-  // }
-
-  // async validate(payload: JwtPayload): Promise<User> {
-  //   const { username } = payload;
-  //   const user: User = await this.userRepository.findOne({ username });
-
-  //   if (!user) {
-  //     throw new UnauthorizedException();
-  //   }
-
-  //   return user;
-  // }
-
   constructor(private readonly userService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -48,6 +27,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!user) {
       throw new UnauthorizedException('You are not authorized to perform the operation');
     }
-    return payload;
+    return user;
   }
 }

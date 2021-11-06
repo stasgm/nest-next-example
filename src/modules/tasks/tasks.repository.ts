@@ -25,7 +25,6 @@ export class TasksRepository extends Repository<Task> {
 
     const query = this.createQueryBuilder('task');
 
-    console.log(user);
     query.where({ user });
 
     if (status) {
