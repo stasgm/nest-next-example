@@ -10,7 +10,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1');
   app.enableCors({
     origin: '*',
-    allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
+    // origin: 'http://localhost:3030',
+    // allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   });
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, Logger } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards, Logger, Patch } from '@nestjs/common';
 import { ApiTags, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthGuard } from '@nestjs/passport';
@@ -7,7 +7,7 @@ import { User } from '../users/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
-import { Task } from './entities/task.entity';
+import { Task } from './interfaces/task.entity';
 import { TasksService } from './tasks.service';
 
 @Controller('tasks')
@@ -41,7 +41,7 @@ export class TasksController {
     return this.taskService.create(createTaskDto, user);
   }
 
-  @Put(':id')
+  @Patch(':id')
   @ApiOkResponse({ type: Task })
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()

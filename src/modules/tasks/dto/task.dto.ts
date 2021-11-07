@@ -1,4 +1,4 @@
-import { Task } from '../entities/task.entity';
+import { Task } from '../interfaces/task.entity';
 import { TaskStatus } from '../interfaces/task-status.enum';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../../users/user.entity';
