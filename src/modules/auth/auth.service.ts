@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './auth/jwt-payload.interface';
 import { UsersService } from '../users/users.service';
-import { AuthResponseDto } from './dto/auth-request.dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
 import { UserDto } from '../users/dto/user.dto';
 import { User } from '../users/user.entity';
 
