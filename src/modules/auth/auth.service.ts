@@ -6,7 +6,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { UsersService } from '../users/users.service';
 import { AuthResponseDto } from './dto/auth-response.dto';
-import { UserDto } from '../users/dto/user.dto';
+// import { UserDto } from '../users/dto/user.dto';
 import { User } from '../users/interfaces/user.entity';
 
 @Injectable()
@@ -39,9 +39,9 @@ export class AuthService {
     const payload: JwtPayload = { username, userid, role };
     // generate token
     const token = this.generateToken(payload);
-    // generate user dto
-    const userDto = new UserDto(user);
+    // // generate user dto
+    // const userDto = new UserDto(user);
     // return the user and the token
-    return { user: userDto, access_token: token };
+    return { access_token: token };
   }
 }
