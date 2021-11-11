@@ -3,7 +3,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 import { PostgresErrorCode } from '../../core/database/postgres-error-codes.enum';
-import { User } from './user.entity';
+import { User } from './interfaces/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 
 @EntityRepository(User)

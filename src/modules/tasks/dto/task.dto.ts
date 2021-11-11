@@ -1,7 +1,7 @@
 import { Task } from '../interfaces/task.entity';
 import { TaskStatus } from '../interfaces/task-status.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { User } from '../../users/user.entity';
+import { User } from '../../users/interfaces/user.entity';
 
 export class TaskDto {
   @ApiProperty()

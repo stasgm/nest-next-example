@@ -1,6 +1,7 @@
 import { ValidationPipe, Logger } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
 import { TransformInterceptor } from './core/transform.interceptor';
 import setupSwagger from './core/swagger';
 
@@ -21,6 +22,10 @@ async function bootstrap() {
   const port = process.env.PORT;
   await app.listen(port);
 
-  logger.log(`Application listening on port ${port}`);
+  logger.log('Application is running');
+  logger.log(`\t post ${port}`);
+  logger.log(`\t stage: ${new ConfigService().get('STAGE')}`);
+  logger.log(`\t db host: ${new ConfigService().get('DB_HOST')}`);
+  logger.log(`\t db name: ${new ConfigService().get('DB_DATABASE')}`);
 }
 bootstrap();

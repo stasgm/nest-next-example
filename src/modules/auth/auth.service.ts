@@ -3,11 +3,11 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
-import { JwtPayload } from './auth/jwt-payload.interface';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { UsersService } from '../users/users.service';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { UserDto } from '../users/dto/user.dto';
-import { User } from '../users/user.entity';
+import { User } from '../users/interfaces/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -35,8 +35,8 @@ export class AuthService {
   }
 
   private generateResponse(user: User): AuthResponseDto {
-    const { username } = user;
-    const payload: JwtPayload = { username };
+    const { username, id: userid, role } = user;
+    const payload: JwtPayload = { username, userid, role };
     // generate token
     const token = this.generateToken(payload);
     // generate user dto

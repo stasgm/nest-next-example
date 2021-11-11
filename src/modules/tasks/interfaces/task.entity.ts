@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
-import { User } from '../../users/user.entity';
+import { User } from '../../users/interfaces/user.entity';
 import { TaskStatus } from './task-status.enum';
 
 @Entity()
@@ -10,6 +10,14 @@ export class Task {
   @ApiProperty()
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @ApiProperty()
+  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
+  createdAt: Date;
+
+  @ApiProperty()
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
+  updatedAt: Date;
 
   @ApiProperty()
   @Column()

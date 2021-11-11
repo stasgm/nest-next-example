@@ -3,7 +3,7 @@ import { ApiTags, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth } f
 
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/get-user.decorator';
-import { User } from '../users/user.entity';
+import { User } from '../users/interfaces/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';

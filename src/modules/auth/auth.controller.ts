@@ -4,7 +4,7 @@ import { ApiTags, ApiOkResponse } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
-import { User } from '../users/user.entity';
+import { User } from '../users/interfaces/user.entity';
 
 @Controller('auth')
 @ApiTags('Auth')
