@@ -7,7 +7,7 @@ import { TaskStatus } from './task-status.enum';
 
 @Entity()
 export class Task {
-  @ApiProperty()
+  @ApiProperty({ uniqueItems: true })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -27,7 +27,7 @@ export class Task {
   @Column()
   description: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: TaskStatus })
   @Column({
     type: 'enum',
     enum: TaskStatus,
@@ -35,7 +35,7 @@ export class Task {
   })
   status: TaskStatus;
 
-  @ApiProperty()
+  // @ApiProperty()
   @ManyToOne(() => User, (user) => user.tasks, { eager: false })
   @Exclude({ toPlainOnly: true })
   user: User;

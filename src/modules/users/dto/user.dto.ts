@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+/* import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsDateString } from 'class-validator';
 import { Role } from '../interfaces/role.enum';
 import { User } from '../interfaces/user.entity';
@@ -34,4 +34,4 @@ export class UserDto {
     this.username = user.username;
     this.role = user.role;
   }
-}
+} */

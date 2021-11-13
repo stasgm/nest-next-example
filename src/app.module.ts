@@ -38,5 +38,6 @@ import { UsersModule } from './modules/users/users.module';
     AuthModule,
     UsersModule,
   ],
+  providers: [],
 })
 export class AppModule {}

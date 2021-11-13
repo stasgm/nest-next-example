@@ -1,12 +1,18 @@
+import { ApiProperty, PickType } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { User } from '../interfaces/user.entity';
 
-export class CreateUserDto {
-  @ApiProperty()
-  @IsNotEmpty()
-  username: string;
-
+export class CreateUserDto extends PickType(User, ['username'] as const) {
   @ApiProperty()
   @IsNotEmpty()
   password: string;
 }
+// export class CreateUserDto {
+//   @ApiProperty()
+//   @IsNotEmpty()
+//   username: string;
+
+//   @ApiProperty()
+//   @IsNotEmpty()
+//   password: string;
+// }

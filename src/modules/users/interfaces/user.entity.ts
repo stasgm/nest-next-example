@@ -3,10 +3,11 @@ import { ApiProperty } from '@nestjs/swagger';
 
 import { Task } from '../../tasks/interfaces/task.entity';
 import { Role } from './role.enum';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
-  @ApiProperty()
+  @ApiProperty({ uniqueItems: true })
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -22,11 +23,12 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @ApiProperty()
+  // @ApiProperty()
   @Column()
+  @Exclude()
   password: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: Role })
   @Column({
     type: 'enum',
     enum: Role,
@@ -34,6 +36,7 @@ export class User {
   })
   role: Role;
 
+  @Exclude()
   @OneToMany(() => Task, (task) => task.user, { eager: true })
   tasks: Task[];
 }

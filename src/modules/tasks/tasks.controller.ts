@@ -12,7 +12,7 @@ import { TasksService } from './tasks.service';
 
 @Controller('tasks')
 @ApiTags('Tasks')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class TasksController {
   private readonly logger = new Logger('TaskController');
 
@@ -20,6 +20,7 @@ export class TasksController {
 
   @Get()
   @ApiOkResponse({ type: [Task] })
+  @ApiBearerAuth()
   getAll(@Query() getTasksFilterTaskDto: GetTasksFilterTaskDto, @GetUser() user: User): Promise<Task[]> {
     this.logger.verbose(
       `User "${user.username}" retrieving all tasks. Filters: ${JSON.stringify(getTasksFilterTaskDto)}`,
@@ -30,6 +31,7 @@ export class TasksController {
   @Get(':id')
   @ApiOkResponse({ type: Task })
   @ApiParam({ name: 'id', required: true })
+  @ApiBearerAuth()
   getById(@Param('id') id: string, @GetUser() user: User): Promise<Task> {
     return this.taskService.getById(id, user);
   }
