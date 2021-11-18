@@ -42,6 +42,6 @@ export class AuthService {
     // // generate user dto
     // const userDto = new UserDto(user);
     // return the user and the token
-    return { access_token: token };
+    return { access_token: token, user };
   }
 }

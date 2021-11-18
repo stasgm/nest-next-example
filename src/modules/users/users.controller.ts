@@ -27,15 +27,6 @@ export class UsersController {
     return await this.usersService.getAll();
   }
 
-  @Get('me')
-  @ApiOkResponse({ type: User })
-  @ApiBearerAuth()
-  async getMe(@GetUser() user: User): Promise<User> {
-    this.logger.verbose(`User "${user.username}" gets himself`);
-    // Check if a user exists
-    return user;
-  }
-
   @Get(':id')
   @hasRoles(Role.Admin)
   @UseGuards(RolesGuard)
