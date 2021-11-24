@@ -1,30 +1,22 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
+import { IsNotEmpty } from 'class-validator';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { BaseEntity } from '../../shared/baseEntity';
 
 import { User } from '../../users/interfaces/user.entity';
 import { TaskStatus } from './task-status.enum';
 
 @Entity()
-export class Task {
-  @ApiProperty({ uniqueItems: true })
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
-
-  @ApiProperty()
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt: Date;
-
+export class Task extends BaseEntity {
   @ApiProperty()
   @Column()
+  @IsNotEmpty()
   title: string;
 
   @ApiProperty()
   @Column()
+  @IsNotEmpty()
   description: string;
 
   @ApiProperty({ enum: TaskStatus })

@@ -1,8 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards, Logger, Patch } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Query,
+  UseGuards,
+  Logger,
+  Patch,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { ApiTags, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthGuard } from '@nestjs/passport';
-import { GetUser } from '../auth/get-user.decorator';
+import { GetUser } from '../auth/decorators/get-user.decorator';
 import { User } from '../users/interfaces/user.entity';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { GetTasksFilterTaskDto } from './dto/get-tasks-filter.dto';
@@ -32,7 +44,7 @@ export class TasksController {
   @ApiOkResponse({ type: Task })
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
-  getById(@Param('id') id: string, @GetUser() user: User): Promise<Task> {
+  getById(@Param('id', new ParseUUIDPipe()) id: string, @GetUser() user: User): Promise<Task> {
     return this.taskService.getById(id, user);
   }
 
@@ -47,7 +59,11 @@ export class TasksController {
   @ApiOkResponse({ type: Task })
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
-  updateById(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto, @GetUser() user: User): Promise<Task> {
+  updateById(
+    @Param('id', new ParseUUIDPipe()) id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+    @GetUser() user: User,
+  ): Promise<Task> {
     return this.taskService.updateById(id, updateTaskDto, user);
   }
 
@@ -55,7 +71,7 @@ export class TasksController {
   @ApiOkResponse()
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
-  deleteById(@Param('id') id: string, @GetUser() user: User): Promise<void> {
+  deleteById(@Param('id', new ParseUUIDPipe()) id: string, @GetUser() user: User): Promise<void> {
     return this.taskService.deleteById(id, user);
   }
 }

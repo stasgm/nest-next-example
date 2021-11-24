@@ -4,28 +4,21 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Task } from '../../tasks/interfaces/task.entity';
 import { Role } from './role.enum';
 import { Exclude } from 'class-transformer';
+import { Discussion } from '../../discussions/interfaces/discussion.entity';
+import { Comment } from '../../comments/interfaces/comment.entity';
+import { IsNotEmpty } from 'class-validator';
+import { BaseEntity } from '../../shared/baseEntity';
 
 @Entity()
-export class User {
-  @ApiProperty({ uniqueItems: true })
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @ApiProperty()
-  @CreateDateColumn({ name: 'created_at', type: 'timestamp' })
-  createdAt: Date;
-
-  @ApiProperty()
-  @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-  updatedAt: Date;
-
+export class User extends BaseEntity {
   @ApiProperty()
   @Column({ unique: true })
+  @IsNotEmpty()
   username: string;
 
-  // @ApiProperty()
   @Column()
   @Exclude()
+  @IsNotEmpty()
   password: string;
 
   @ApiProperty({ enum: Role })
@@ -39,4 +32,12 @@ export class User {
   @Exclude()
   @OneToMany(() => Task, (task) => task.user, { eager: true })
   tasks: Task[];
+
+  @Exclude()
+  @OneToMany(() => Discussion, (discussion) => discussion.user, { eager: true })
+  discussions: Discussion[];
+
+  @Exclude()
+  @OneToMany(() => Comment, (comment) => comment.user, { eager: true })
+  comments: Comment[];
 }

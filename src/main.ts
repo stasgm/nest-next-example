@@ -22,10 +22,12 @@ async function bootstrap() {
   const port = process.env.PORT;
   await app.listen(port);
 
-  logger.log('Application is running');
-  logger.log(`\t post ${port}`);
-  logger.log(`\t stage: ${new ConfigService().get('STAGE')}`);
-  logger.log(`\t db host: ${new ConfigService().get('DB_HOST')}`);
-  logger.log(`\t db name: ${new ConfigService().get('DB_DATABASE')}`);
+  logger.log(`
+    Application is running:
+        - port: ${port}
+        - stage: ${new ConfigService().get('STAGE')}
+        - db host: ${new ConfigService().get('DB_HOST')}
+        - db name: ${new ConfigService().get('DB_DATABASE')}
+  `);
 }
 bootstrap();

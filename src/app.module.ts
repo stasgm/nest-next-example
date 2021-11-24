@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { configValidationSchema } from './core/config/config.schema';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
+import { DiscussionsModule } from './modules/discussions/discussions.module';
+import { CommentsModule } from './modules/comments/comments.module';
 
 @Module({
   imports: [
@@ -12,7 +14,6 @@ import { UsersModule } from './modules/users/users.module';
       envFilePath: [`.env.stage.${process.env.STAGE || 'dev'}`],
       validationSchema: configValidationSchema,
     }),
-    TasksModule,
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -37,6 +38,9 @@ import { UsersModule } from './modules/users/users.module';
     }),
     AuthModule,
     UsersModule,
+    TasksModule,
+    DiscussionsModule,
+    CommentsModule,
   ],
   providers: [],
 })

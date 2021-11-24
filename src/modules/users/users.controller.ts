@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Logger, Param, Patch, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Logger, Param, ParseUUIDPipe, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 
-import { GetUser } from '../auth/get-user.decorator';
+import { GetUser } from '../auth/decorators/get-user.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -33,7 +33,7 @@ export class UsersController {
   @ApiOkResponse({ type: User })
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
-  async getById(@Param('id') id: string, @GetUser() user: User): Promise<User> {
+  async getById(@Param('id', new ParseUUIDPipe()) id: string, @GetUser() user: User): Promise<User> {
     this.logger.verbose(`User "${user.username}" retrieving a user by id ${id}`);
     return this.usersService.getById(id);
   }
@@ -55,7 +55,7 @@ export class UsersController {
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
   async updateById(
-    @Param('id') id: string,
+    @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateUserDto: UpdateUserDto,
     @GetUser() user: User,
   ): Promise<User> {
@@ -69,7 +69,7 @@ export class UsersController {
   @ApiOkResponse()
   @ApiParam({ name: 'id', required: true })
   @ApiBearerAuth()
-  deleteById(@Param('id') id: string, @GetUser() user: User): Promise<void> {
+  deleteById(@Param('id', new ParseUUIDPipe()) id: string, @GetUser() user: User): Promise<void> {
     this.logger.verbose(`User "${user.username}" deletes a user by id: ${id}`);
     return this.usersService.deleteById(id);
   }
