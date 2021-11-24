@@ -89,9 +89,9 @@ export class DiscussionsController {
 
   //** Comments */
 
-  @Get(':id/comments')
+  @Get(':discussionId/comments')
   @ApiOkResponse({ type: [Comment] })
-  @ApiParam({ name: 'id', required: true })
+  @ApiParam({ name: 'discussionId', required: true })
   @ApiBearerAuth()
   async getAllCommentsByDiscussionId(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -100,6 +100,20 @@ export class DiscussionsController {
   ): Promise<Comment[]> {
     const discussion: Discussion = await this.getById(id, user);
     return this.commentsService.getAll(getCommentsFilterCommentsDto, user, discussion);
+  }
+
+  @Get(':discussionId/comments/:commentId')
+  @ApiOkResponse({ type: Comment })
+  @ApiParam({ name: 'discussionId', required: true })
+  @ApiBearerAuth()
+  async getCommentByIdAndByDiscussionId(
+    @Param('discussionId', new ParseUUIDPipe()) discussionId: string,
+    @Param('commentId', new ParseUUIDPipe()) commentId: string,
+    @Query() getCommentsFilterCommentsDto: GetCommentsFilterCommentsDto,
+    @GetUser() user: User,
+  ): Promise<Comment> {
+    // const discussion: Discussion = await this.getById(id, user);
+    return this.commentsService.getById(commentId, user);
   }
 
   @Post(':id/comments')
