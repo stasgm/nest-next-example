@@ -14,3 +14,7 @@
 /db
 
 # env
+
+
+# sh
+deploy-heroku.dev.sh
