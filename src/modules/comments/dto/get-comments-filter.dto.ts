@@ -6,4 +6,9 @@ export class GetCommentsFilterCommentsDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @ApiPropertyOptional()
+  @IsOptional()
+  @IsString()
+  discussionId?: string;
 }

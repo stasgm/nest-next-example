@@ -11,7 +11,7 @@ import {
   Patch,
   ParseUUIDPipe,
 } from '@nestjs/common';
-import { ApiTags, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth, ApiBody } from '@nestjs/swagger';
+import { ApiTags, ApiParam, ApiOkResponse, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../auth/decorators/get-user.decorator';
@@ -21,10 +21,6 @@ import { GetDiscussionsFilterDiscussionDto } from './dto/get-discussions-filter.
 import { UpdateDiscussionDto } from './dto/update-discussion.dto';
 import { Discussion } from './interfaces/discussion.entity';
 import { DiscussionsService } from './discussions.service';
-import { Comment } from '../comments/interfaces/comment.entity';
-import { CommentsService } from '../comments/comments.service';
-import { CreateCommentDto } from '../comments/dto/create-comment.dto';
-import { GetCommentsFilterCommentsDto } from '../comments/dto/get-comments-filter.dto';
 
 @Controller('discussions')
 @ApiTags('Discussions')
@@ -32,10 +28,7 @@ import { GetCommentsFilterCommentsDto } from '../comments/dto/get-comments-filte
 export class DiscussionsController {
   private readonly logger = new Logger('DiscussionController');
 
-  constructor(
-    private readonly discussionService: DiscussionsService,
-    private readonly commentsService: CommentsService,
-  ) {}
+  constructor(private readonly discussionService: DiscussionsService) {}
 
   @Get()
   @ApiOkResponse({ type: [Discussion] })
@@ -89,44 +82,44 @@ export class DiscussionsController {
 
   //** Comments */
 
-  @Get(':discussionId/comments')
-  @ApiOkResponse({ type: [Comment] })
-  @ApiParam({ name: 'discussionId', required: true })
-  @ApiBearerAuth()
-  async getAllCommentsByDiscussionId(
-    @Param('id', new ParseUUIDPipe()) id: string,
-    @Query() getCommentsFilterCommentsDto: GetCommentsFilterCommentsDto,
-    @GetUser() user: User,
-  ): Promise<Comment[]> {
-    const discussion: Discussion = await this.getById(id, user);
-    return this.commentsService.getAll(getCommentsFilterCommentsDto, user, discussion);
-  }
+  // @Get(':discussionId/comments')
+  // @ApiOkResponse({ type: [Comment] })
+  // @ApiParam({ name: 'discussionId', required: true })
+  // @ApiBearerAuth()
+  // async getAllCommentsByDiscussionId(
+  //   @Param('discussionId', new ParseUUIDPipe()) id: string,
+  //   @Query() getCommentsFilterCommentsDto: GetCommentsFilterCommentsDto,
+  //   @GetUser() user: User,
+  // ): Promise<Comment[]> {
+  //   const discussion: Discussion = await this.getById(id, user);
+  //   return this.commentsService.getAll(getCommentsFilterCommentsDto, user, discussion);
+  // }
 
-  @Get(':discussionId/comments/:commentId')
-  @ApiOkResponse({ type: Comment })
-  @ApiParam({ name: 'discussionId', required: true })
-  @ApiBearerAuth()
-  async getCommentByIdAndByDiscussionId(
-    @Param('discussionId', new ParseUUIDPipe()) discussionId: string,
-    @Param('commentId', new ParseUUIDPipe()) commentId: string,
-    @Query() getCommentsFilterCommentsDto: GetCommentsFilterCommentsDto,
-    @GetUser() user: User,
-  ): Promise<Comment> {
-    // const discussion: Discussion = await this.getById(id, user);
-    return this.commentsService.getById(commentId, user);
-  }
+  // @Get(':discussionId/comments/:commentId')
+  // @ApiOkResponse({ type: Comment })
+  // @ApiParam({ name: 'discussionId', required: true })
+  // @ApiBearerAuth()
+  // async getCommentByIdAndByDiscussionId(
+  //   @Param('discussionId', new ParseUUIDPipe()) discussionId: string,
+  //   @Param('commentId', new ParseUUIDPipe()) commentId: string,
+  //   @Query() getCommentsFilterCommentsDto: GetCommentsFilterCommentsDto,
+  //   @GetUser() user: User,
+  // ): Promise<Comment> {
+  //   // const discussion: Discussion = await this.getById(id, user);
+  //   return this.commentsService.getById(commentId, user);
+  // }
 
-  @Post(':id/comments')
-  @ApiCreatedResponse({ type: Comment })
-  @ApiBearerAuth()
-  @ApiParam({ name: 'id', required: true })
-  @ApiBody({ required: true })
-  async createComment(
-    @Param('id', new ParseUUIDPipe()) id: string,
-    @Body() createCommentDto: CreateCommentDto,
-    @GetUser() user: User,
-  ): Promise<Comment> {
-    const discussion: Discussion = await this.getById(id, user);
-    return this.commentsService.create(createCommentDto, user, discussion);
-  }
+  // @Post(':id/comments')
+  // @ApiCreatedResponse({ type: Comment })
+  // @ApiBearerAuth()
+  // @ApiParam({ name: 'id', required: true })
+  // @ApiBody({ required: true })
+  // async createComment(
+  //   @Param('id', new ParseUUIDPipe()) id: string,
+  //   @Body() createCommentDto: CreateCommentDto,
+  //   @GetUser() user: User,
+  // ): Promise<Comment> {
+  //   const discussion: Discussion = await this.getById(id, user);
+  //   return this.commentsService.create(createCommentDto, user, discussion);
+  // }
 }

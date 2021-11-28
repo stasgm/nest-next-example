@@ -7,12 +7,11 @@ import { Comment } from './interfaces/comment.entity';
 
 @EntityRepository(Comment)
 export class CommentsRepository extends Repository<Comment> {
-  addOne(createCommentsDto: CreateCommentDto, user: User, discussion: Discussion): Promise<Comment> {
-    const { title, body } = createCommentsDto;
+  addOne(createCommentsDto: CreateCommentDto, discussion: Discussion, user: User): Promise<Comment> {
+    const { body } = createCommentsDto;
 
     const comments = this.create({
       body,
-      title,
       discussion,
       user,
     });
@@ -20,20 +19,23 @@ export class CommentsRepository extends Repository<Comment> {
     return this.save(comments);
   }
 
-  findMany(
-    getCommentssFilterCommentsDto: GetCommentsFilterCommentsDto,
-    user: User,
-    discussion: Discussion,
-  ): Promise<Comment[]> {
-    const { search } = getCommentssFilterCommentsDto;
+  findMany(getCommentssFilterCommentsDto: GetCommentsFilterCommentsDto): Promise<Comment[]> {
+    const { search, discussionId } = getCommentssFilterCommentsDto;
 
-    const query = this.createQueryBuilder('comments');
-
-    query.where({ discussion: discussion.id });
+    const query = this.createQueryBuilder('comments')
+      .innerJoinAndSelect('comments.discussion', 'd')
+      .innerJoinAndSelect('comments.user', 'u');
+    query.where({ discussion: discussionId });
 
     if (search) {
       query.andWhere('LOWER(comments.body) LIKE :search', {
         search: `%${search.toLocaleLowerCase()}%`,
+      });
+    }
+
+    if (search) {
+      query.andWhere('d.id = :discussionId', {
+        search: discussionId,
       });
     }
 

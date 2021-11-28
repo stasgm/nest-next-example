@@ -7,21 +7,18 @@ import { CommentsRepository } from './comments.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comment } from './interfaces/comment.entity';
 import { User } from '../users/interfaces/user.entity';
-import { Discussion } from '../discussions/interfaces/discussion.entity';
+import { DiscussionsService } from '../discussions/discussions.service';
 
 @Injectable()
 export class CommentsService {
   constructor(
     @InjectRepository(CommentsRepository)
     private readonly commentRepository: CommentsRepository,
+    private readonly discussionService: DiscussionsService,
   ) {}
 
-  getAll(
-    getCommentsFilterCommentDto: GetCommentsFilterCommentsDto,
-    user: User,
-    discussion: Discussion,
-  ): Promise<Comment[]> {
-    return this.commentRepository.findMany(getCommentsFilterCommentDto, user, discussion);
+  async getAll(getCommentsFilterCommentDto: GetCommentsFilterCommentsDto): Promise<Comment[]> {
+    return this.commentRepository.findMany(getCommentsFilterCommentDto);
   }
 
   async getById(id: string, user: User): Promise<Comment> {
@@ -34,8 +31,9 @@ export class CommentsService {
     return comment;
   }
 
-  async create(createCommentDto: CreateCommentDto, user: User, discussion: Discussion): Promise<Comment> {
-    return this.commentRepository.addOne(createCommentDto, user, discussion);
+  async create(createCommentDto: CreateCommentDto, user: User): Promise<Comment> {
+    const discussion = await this.discussionService.getById(createCommentDto.discussionId, user);
+    return this.commentRepository.addOne(createCommentDto, discussion, user);
   }
 
   async updateById(id: string, updateCommentDto: UpdateCommentDto, user: User): Promise<Comment> {

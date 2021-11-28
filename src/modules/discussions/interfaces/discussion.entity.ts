@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
 import { IsNotEmpty } from 'class-validator';
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { Comment } from '../../comments/interfaces/comment.entity';
 import { BaseEntity } from '../../shared/baseEntity';
 
@@ -33,6 +33,6 @@ export class Discussion extends BaseEntity {
   user: User;
 
   @Exclude()
-  @ManyToOne(() => Comment, (comment) => comment.discussion, { eager: true })
+  @OneToMany(() => Comment, (comment) => comment.discussion, { eager: true })
   comments: Comment[];
 }
