@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude } from 'class-transformer';
-import { IsNotEmpty } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 import { Entity, Column, ManyToOne } from 'typeorm';
 import { BaseEntity } from '../../shared/baseEntity';
 
@@ -25,9 +25,9 @@ export class Task extends BaseEntity {
     enum: TaskStatus,
     default: TaskStatus.OPEN,
   })
+  @IsEnum(TaskStatus)
   status: TaskStatus;
 
-  // @ApiProperty()
   @ManyToOne(() => User, (user) => user.tasks, { eager: false })
   @Exclude({ toPlainOnly: true })
   user: User;
